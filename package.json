@@ -1,0 +1,29 @@
+{
+    "name": "selectiveadjust",
+    "version": "1.0.0",
+    "description": "google snapseed 의 selective adjust를 구현",
+    "main": "make.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "compile": "webpack --progress",
+        "dev": "webpack-dev-server --open"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://oss.navercorp.com/kim-jinhoon/selectiveadjust.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-core": "^6.26.3",
+        "babel-loader": "^7.1.5",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-polyfill": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
+        "babel-runtime": "^6.26.0",
+        "mocha": "^5.2.0",
+        "webpack": "^2.6.1",
+        "webpack-dev-server": "^2.2.1"
+    }
+}
