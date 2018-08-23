@@ -64,15 +64,46 @@ function initMouseEvent(view, uilayer, source) {
 			y: e.offsetY,
 			hue: hue,
 			t: 25 * Math.PI / 180,
-			radius: 100
+			radius: 100,
+			// colorMatrix: getBrightnessMat(0.3),
+			colorMatrix: getContrastMat(2),
+			// colorMatrix: getFlatColorMat4x3(1, 0, 0),
 		});
 
 		setBackgroundColor(...pixel);
 		updateFilters(source, dest, shiftUntil(filters, 5));
 		drawTo(view, dest);
-		appendCircle(e.target, e.offsetX, e.offsetY);
+		// appendCircle(e.target, e.offsetX, e.offsetY);
 		removeFirstChildUntil(e.target, 5);
 	});
+}
+
+function getContrastMat(c) {
+	const t = 128 * (1 - c);
+
+	return [
+		c, 0, 0, t,
+		0, c, 0, t,
+		0, 0, c, t,
+	];
+}
+
+function getBrightnessMat(brightness) {
+	const b = 256 * brightness
+
+	return [
+		1, 0, 0, b,
+		0, 1, 0, b,
+		0, 0, 1, b,
+	]
+}
+
+function getFlatColorMat4x3(r, g, b) {
+	return [
+		0, 0, 0, r * 255 | 0,
+		0, 0, 0, g * 255 | 0,
+		0, 0, 0, b * 255 | 0,
+	];
 }
 
 function updateFilters(source, dest, filters) {
@@ -93,11 +124,15 @@ function applySelectiveAdjust(original, source, dest, filter) {
 		, height = source.height
 		, radius = filter.radius * filter.radius
 		, ox = filter.x
-		, oy = filter.y;
+		, oy = filter.y
+		, m = filter.colorMatrix
+		, _a = m[0], _d = m[1], _g = m[2], _j = m[3]
+		, _b = m[4], _e = m[5], _h = m[6], _k = m[7]
+		, _c = m[8], _f = m[9], _i = m[10], _l = m[11];
 
 	var r, g, b, hue2, f, 
 		x, y, j, dx, dy,
-		tr = 255, tg = 0, tb = 0;
+		tr, tg, tb;
 
 	for(var i = 0; i < len; i += 4) {
 		r = srcData[i    ];
@@ -124,6 +159,10 @@ function applySelectiveAdjust(original, source, dest, filter) {
 
 		hue2 = getHueAngle(orgData[i] / 255, orgData[i + 1] / 255, orgData[i + 2] / 255);
 		f = f * Math.max(0, 1 - Math.abs(hue - hue2) / t);
+
+		tr = _a*r + _d*g + _g*b + _j;
+		tg = _b*r + _e*g + _h*b + _k;
+		tb = _c*r + _f*g + _i*b + _l;
 
 		destData[i] = r + f * (tr - r);
 		destData[i + 1] = g + f * (tg - g);
