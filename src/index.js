@@ -3,9 +3,7 @@ import {onload, loadImage} from './utils/io';
 import {zfill} from './utils/string';
 import {getImageDataFrom, drawTo, getPixel} from './utils/canvas';
 import {getHueAngle} from './utils/canvas';
-
-window.zip = zip;
-window.setProps = setProps;
+import SelectiveTool from './ui/SelectiveTool';
 
 onload(window)
 	.then(init)
@@ -54,27 +52,64 @@ function initMouseEvent(view, uilayer, source) {
 		, filters = [];
 
 	uilayer.addEventListener('click', e => {
+		if(filters.length) return;
 		if(e.target != uilayer) return;
 
 		const pixel = getPixel(source, e.offsetX, e.offsetY)
-			, hue = getHueAngle(...pixel.map(n => n / 255.0));
+			, hue = getHueAngle(...pixel.map(n => n / 255.0))
+			, filter = {
+				x: e.offsetX,
+				y: e.offsetY,
+				hue: hue,
+				t: getRange(0),
+				radius: 100,
+				// colorMatrix: getBrightnessMat(0.3),
+				// colorMatrix: getContrastMat(2),
+				colorMatrix: getFlatColorMat4x3(1, 0, 0),	
+			}
 
-		filters.push({
-			x: e.offsetX,
-			y: e.offsetY,
-			hue: hue,
-			t: 25 * Math.PI / 180,
-			radius: 100,
-			// colorMatrix: getBrightnessMat(0.3),
-			colorMatrix: getContrastMat(2),
-			// colorMatrix: getFlatColorMat4x3(1, 0, 0),
-		});
+		filters.push(filter);
 
 		setBackgroundColor(...pixel);
-		updateFilters(source, dest, shiftUntil(filters, 5));
+		// updateFilters(source, dest, shiftUntil(filters, 5));
+		
 		drawTo(view, dest);
+		appendTool(e.target, e.offsetX, e.offsetY, filter, source, dest);
 		// appendCircle(e.target, e.offsetX, e.offsetY);
 		removeFirstChildUntil(e.target, 5);
+	});
+}
+
+function getRange(t) {
+	const min = 20 * Math.PI / 180
+		, max = 65 * Math.PI / 180
+		, maxR = 1.5707963267948966
+		, r = Math.abs(t);
+
+	return min + (r / maxR) * (max - min);
+}
+
+
+function appendTool(svg, x, y, filter, source, dest) {
+	const tool = new SelectiveTool();
+	tool.x = x;
+	tool.y = y;
+	tool.radius = filter.radius;
+
+	svg.appendChild(tool.g);
+
+	tool.on('change', () => {
+		filter.x = tool.x;
+		filter.y = tool.y;
+		filter.radius = tool.radius;
+		filter.t = getRange(tool.radian);
+
+		const pixel = getPixel(source, tool.x, tool.y);
+
+		filter.hue = getHueAngle(...pixel.map(n => n / 255.0));
+
+		applySelectiveAdjust(source, source, dest, filter);
+		drawTo(view, dest);
 	});
 }
 
