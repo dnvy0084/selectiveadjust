@@ -66,14 +66,14 @@ function initMouseEvent(view, uilayer, source) {
 			t: 25 * Math.PI / 180,
 			radius: 100,
 			// colorMatrix: getBrightnessMat(0.3),
-			colorMatrix: getContrastMat(2),
-			// colorMatrix: getFlatColorMat4x3(1, 0, 0),
+			// colorMatrix: getContrastMat(2),
+			colorMatrix: getFlatColorMat4x3(1, 0, 0),
 		});
 
 		setBackgroundColor(...pixel);
 		updateFilters(source, dest, shiftUntil(filters, 5));
 		drawTo(view, dest);
-		// appendCircle(e.target, e.offsetX, e.offsetY);
+		appendCircle(e.target, e.offsetX, e.offsetY);
 		removeFirstChildUntil(e.target, 5);
 	});
 }
