@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ui test</title>
+	<link rel="stylesheet" type="text/css" href="css/common.css">
+</head>
+<body>
+	<div class="wrapper">
+		<svg id="view" width="800" height="600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<g transform="matrix(1,0,0,1,100,100)">
+				<circle class="center drag_move" cx="0" cy="0" r="10" pointer-events="fill"></circle>
+				<path class="crosshair" d="M0 -4 v 8 M-4 0 h 8" pointer-events="none"/>
+				<g class="hover" pointer-events="stroke">
+					<circle class="hidden_area drag_area" cx="0" cy="0" r="100"></circle>
+					<circle class="dotted_line drag_area" cx="0" cy="0" r="100"></circle>
+				</g>
+			</g>
+		</svg>
+	</div>
+	<script type="text/javascript">
+		const $ = selector => document.querySelector(selector)
+			, view = $('#view')
+			, g = $('#view g')
+			, dotLine = $('#view g.hover .dotted_line')
+			, hiddenArea = $('#view g.hover .hidden_area')
+			, ns = view.getAttribute('xmlns');
+
+		view.addEventListener('mousedown', onDown);
+
+		function onDown(e) {
+			console.log(e.target);
+
+			if(e.target == view) 
+				return once(e.target, 'mouseup', onClickView);
+
+			const selective = e.target.classList.contains('drag_area');
+
+			if(!selective) return;
+
+			view.addEventListener('mousemove', onMarqueeDrag);
+			document.body.addEventListener('mouseup', onMouseUp);
+		}
+
+		var dragTarget; 
+
+		function startDrag(target, onDrag) {
+			dragTarget = target;
+
+			function onDragTarget(e) {
+				onDrag(e);
+			}
+
+			dragTarget.addEventListener('mousemove', onDragTarget);
+		}
+
+		function onMarqueeDrag(e) {
+			const [x, y] = [e.offsetX, e.offsetY]
+				, [sx, sy] = g.getAttribute('transform')
+					.match(/\d+/g)
+					.slice(4)
+					.map(n => parseInt(n))
+				, dx = x - sx
+				, dy = y - sy
+				, len = Math.sqrt(dx * dx + dy * dy);
+
+			dotLine.setAttribute('r', len);
+			hiddenArea.setAttribute('r', len);
+		}
+
+		function onMouseUp(e) {
+			document.body.removeEventListener('mouseup', onMouseUp);
+			view.removeEventListener('mousemove', onMarqueeDrag);
+		}
+
+
+
+		function onClickView(e) {
+			const [x, y] = [e.offsetX, e.offsetY];
+
+			g.setAttribute('transform', `matrix(1,0,0,1,${x},${y})`);
+		}
+
+
+		function once(emitter, type, listener) {
+			const f = e => {
+				listener(e);
+				emitter.removeEventListener(type, f);
+			}
+
+			emitter.addEventListener(type, f);
+		}
+
+	</script>
+</body>
+</html>

@@ -3,16 +3,20 @@ import {onload, loadImage} from './utils/io';
 import {zfill} from './utils/string';
 import {getImageDataFrom, drawTo, getPixel} from './utils/canvas';
 import {getHueAngle} from './utils/canvas';
+import SelectiveTool from './ui/SelectiveTool';
+import SelectiveAdjust from './SelectiveAdjust';
 
-window.zip = zip;
-window.setProps = setProps;
-
-onload(window)
-	.then(init)
-	.then(imgData => console.log(imgData));
+onload(window).then(init)
+	// .then(imgData => console.log(imgData));
 
 
 function init() {
+	const app = new SelectiveAdjust();
+	app.setImageByURL('./img/sample.jpg');
+
+	window.app = app;
+	return;
+
 	const view = document.querySelector('#view')
 		, uilayer = document.querySelector('#uilayer')
 		, toImageData = curry(getImageDataFrom)(document.createElement('canvas'))
@@ -25,15 +29,35 @@ function init() {
 		.then(tap(source => initMouseEvent(view, uilayer, source)))
 }
 
+window.onresize = function(e) {
+	const view = document.querySelector('#view')
+		, w = view.width
+		, h = view.height;
+
+	alignToCenter(w, h);
+}
+
+function alignToCenter(width, height) {
+	const view = document.querySelector('#view')
+		, uilayer = document.querySelector('#uilayer')
+		, top = ((window.innerHeight - height) / 2) + 'px'
+		, left = ((window.innerWidth - width) / 2) + 'px';
+
+	view.style.top = uilayer.style.top = top;
+	view.style.left = uilayer.style.left = left;
+}
+
 function resizeView(width, height) {
 	const view = document.querySelector('#view')
-		, uilayer = document.querySelector('#uilayer');
+		, uilayer = document.querySelector('#uilayer')
 
 	view.width = width;
 	view.height = height;
 
 	uilayer.setAttribute('width', width);
 	uilayer.setAttribute('height', height);
+
+	alignToCenter(width, height);
 }
 
 function shiftUntil(arr, len) {
@@ -54,57 +78,86 @@ function initMouseEvent(view, uilayer, source) {
 		, filters = [];
 
 	uilayer.addEventListener('click', e => {
+		if(filters.length) return;
 		if(e.target != uilayer) return;
 
 		const pixel = getPixel(source, e.offsetX, e.offsetY)
-			, hue = getHueAngle(...pixel.map(n => n / 255.0));
+			, hue = getHueAngle(...pixel.map(n => n / 255.0))
+			, filter = {
+				x: e.offsetX,
+				y: e.offsetY,
+				hue: hue,
+				t: getRange(0),
+				radius: 100,
+				// colorMatrix: getBrightnessMat(0.3),
+				// colorMatrix: getContrastMat(2),
+				colorMatrix: getFlatColorMat4x3(1, 0, 0),	
+			}
 
-		filters.push({
-			x: e.offsetX,
-			y: e.offsetY,
-			hue: hue,
-			t: 25 * Math.PI / 180,
-			radius: 100,
-			// colorMatrix: getBrightnessMat(0.3),
-			// colorMatrix: getContrastMat(2),
-			colorMatrix: getFlatColorMat4x3(1, 0, 0),
-		});
-
+		filters.push(filter);
 		setBackgroundColor(...pixel);
-		updateFilters(source, dest, shiftUntil(filters, 5));
+		// updateFilters(source, dest, shiftUntil(filters, 5));
+		
 		drawTo(view, dest);
-		appendCircle(e.target, e.offsetX, e.offsetY);
+		appendTool(e.target, e.offsetX, e.offsetY, filter, source, dest);
 		removeFirstChildUntil(e.target, 5);
 	});
 }
 
-function getContrastMat(c) {
-	const t = 128 * (1 - c);
+function getRange(t) {
+	const min = 20 * Math.PI / 180
+		, max = 65 * Math.PI / 180
+		, maxR = 1.5707963267948966
+		, r = Math.abs(t);
 
-	return [
-		c, 0, 0, t,
-		0, c, 0, t,
-		0, 0, c, t,
+	return min + (r / maxR) * (max - min);
+}
+
+
+function appendTool(svg, x, y, filter, source, dest) {
+	const tool = new SelectiveTool();
+	tool.x = x;
+	tool.y = y;
+	tool.radius = filter.radius;
+
+	svg.appendChild(tool.g);
+
+	tool.on('change', () => {
+		filter.x = tool.x;
+		filter.y = tool.y;
+		filter.radius = tool.radius;
+		filter.t = getRange(tool.radian);
+
+		const pixel = getPixel(source, tool.x, tool.y);
+
+		filter.hue = getHueAngle(...pixel.map(n => n / 255.0));
+
+		applySelectiveAdjust(source, source, dest, filter);
+		drawTo(view, dest);
+	});
+
+	window.filter = filter;
+
+	let mat = [
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
 	];
+
+	tool.on('dragStart', () => {
+		filter.colorMatrix = getFlatColorMat4x3(1, 0, 0);
+
+		console.log('start');
+	});
+
+	tool.on('dragStop', () => {
+		filter.colorMatrix = mat;
+		applySelectiveAdjust(source, source, dest, filter);
+
+		console.log('stop');
+	})
 }
 
-function getBrightnessMat(brightness) {
-	const b = 256 * brightness
-
-	return [
-		1, 0, 0, b,
-		0, 1, 0, b,
-		0, 0, 1, b,
-	]
-}
-
-function getFlatColorMat4x3(r, g, b) {
-	return [
-		0, 0, 0, r * 255 | 0,
-		0, 0, 0, g * 255 | 0,
-		0, 0, 0, b * 255 | 0,
-	];
-}
 
 function updateFilters(source, dest, filters) {
 	// filters.forEach(filter => applySelectiveAdjust(source, dest, filter));
@@ -178,40 +231,6 @@ function setBackgroundColor(r, g, b) {
 	document.body.style.background = 
 		(r << 16 | g << 8 | b).toString(16).padStart(6, '0');
 }
-
-function appendCircle(uilayer, x, y) {
-	const namespace = 'http://www.w3.org/2000/svg'
-		, circle = document.createElementNS(namespace, 'circle');
-
-	setAttrs(circle, {
-		cx: x,
-		cy: y,
-		r: 100,
-		stroke: '#ccc',
-		"stroke-width": '2px',
-		fill: 'none',
-		"pointer-events": 'visiblePoint'
-	});
-
-	uilayer.appendChild(circle);
-}
-
-function setAttrs(target, o) {
-	for(let k in o) {
-		target.setAttribute(k, o[k]);
-	}
-}
-
-function doUntil(fa, fb) {
-	return function nest(e) {
-		const faResult = fa(e);
-
-		if(fb(faResult)) return faResult;
-
-		return nest(e);
-	}
-}
-
 
 
 

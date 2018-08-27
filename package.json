@@ -25,5 +25,8 @@
         "mocha": "^5.2.0",
         "webpack": "^2.6.1",
         "webpack-dev-server": "^2.2.1"
+    },
+    "dependencies": {
+        "events": "^3.0.0"
     }
 }

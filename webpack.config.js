@@ -15,6 +15,7 @@ module.exports = {
   // @ https://webpack.js.org/configuration/entry-context/#entry
   entry: {
     index: './src/index.js',
+    uitest: './src/uitest.js',
     test: './test/test.js'
   },
 
