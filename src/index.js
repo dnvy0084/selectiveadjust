@@ -234,5 +234,71 @@ function setBackgroundColor(r, g, b) {
 
 
 
+function _curry(f) {
+	return function(...range) {
+		if(range.length >= f.length) 
+			return f(...range);
 
+		return _curry(f.bind(null, ...range));
+	}
+}
+
+function _curry2(f) {
+	function _fscope(...args) {
+		return function(...rest) {
+			if(args.length + rest.length >= f.length) 
+				return f(...args, ...rest);
+
+			return _fscope(...args, ...rest);
+		}
+	}
+
+	return _fscope();
+}
+
+function range(a, b) {
+	let [i, len] = typeof b === 'undefined' ? [0, a] : [a, b];
+
+	return {
+		[Symbol.iterator]() {
+			return {
+				next() {
+					if(i >= len) return {done: true};
+
+					return {value: i++, done: false};
+				}
+			}
+		}
+	}
+}
+
+function generateString(alphabetRange, len) {
+	const a = 'A'.charCodeAt(0)
+		, charCodes = [...range(len)]
+			.map(n => a + (alphabetRange * Math.random() | 0));
+
+	return String.fromCharCode(...charCodes);
+}
+
+function generateTask(width, height, alphabetRange) {
+	const generateStringUntilRange = 
+		_curry(generateString)(alphabetRange);
+
+	return [...range(height)]
+		.map(n => width)
+		.map(generateStringUntilRange);
+}
+
+function toString(task) {
+	const str = task
+		.map(str => str.match(/./g).join(' '))
+		.join('\n');
+
+	console.log(str);
+}
+
+[...range(5, 10)]
+	.map(n => generateTask(n, n, 4))
+	.forEach(task => toString(task));
+	
 
