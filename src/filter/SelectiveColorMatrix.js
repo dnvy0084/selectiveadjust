@@ -14,10 +14,20 @@ export default class SelectiveColorMatrix {
 
 		this.x = 0;
 		this.y = 0;
-		this.hue = 0;
+		this.hueAngle = 0;
 		this.range = 0;
 		this.radius = 0;
-		this.colorMatrix = identity();
+
+		this._brightness = 0;
+		this._contrast = 1;
+		this._saturation = 1;
+		this._hue = 0;
+		this._changed = true;
+
+		const c = 1.5;
+
+		this._originalColorMat = 
+		this._colorMatrix = identity();
 	}
 
 	applyFilter(source, dest) {
@@ -26,7 +36,7 @@ export default class SelectiveColorMatrix {
 			, destData = dest.data
 			, len = source.width * source.height * 4
 			, t = this.range
-			, hue = this.hue
+			, hue = this.hueAngle
 			, width = source.width
 			, height = source.height
 			, radius = this.radius * this.radius
@@ -55,12 +65,11 @@ export default class SelectiveColorMatrix {
 
 			f = 1 - (dx * dx + dy * dy) / radius;
 
-			if(f <= 0.01) {
+			if(f <= 0.0) {
 				destData[i    ] = r;
 				destData[i + 1] = g;
 				destData[i + 2] = b;
 				destData[i + 3] = srcData[i + 3];	
-
 				continue;
 			}
 
@@ -81,6 +90,77 @@ export default class SelectiveColorMatrix {
 	}
 
 
+	get colorMatrix() {
+		if(this._changed) {
+			const lumR = 0.2125
+				, lumG = 0.7154
+				, lumB = 0.0721
+				, s = this.saturation
+				, sr = (1 - s) * lumR
+				, sg = (1 - s) * lumG
+				, sb = (1 - s) * lumB;
+
+			this._colorMatrix = [
+				sr + s, sg, sb, 0,
+				sr, sg + s, sb, 0,
+				sr, sg, sb + s, 0,
+			];
+		}
+
+		this._changed = false;
+		return this._colorMatrix;
+	}
+
+
+	get brightness() {
+		return this._brightness;
+	}
+	
+	set brightness(value) {
+		if(value == this.brightness) return;
+
+		this._brightness = value;
+		this._changed = true;
+	}
+
+
+	get contrast() {
+		return this._contrast;
+	}
+	
+	set contrast(value) {
+		if(value == this.contrast) return;
+
+		this._contrast = value;
+		this._changed = true;
+	}
+
+
+	get hue() {
+		return this._hue;
+	}
+	
+	set hue(value) {
+		if(value == this.hue) return;
+
+		this._hue = value;
+		this._changed = true;
+	}
+
+
+	get saturation() {
+		return this._saturation;
+	}
+	
+	set saturation(value) {
+		if(value == this.saturation) return;
+
+		this._saturation = value;
+		this._changed = true;
+	}
+
+
+
 	get selectable() {
 		return this.colorMatrix == flatColorMat;
 	}
@@ -88,13 +168,13 @@ export default class SelectiveColorMatrix {
 	set selectable(value) {
 		if(value) {
 			this._originalColorMat = this.colorMatrix;
-			this.colorMatrix = flatColorMat;	
+			this._colorMatrix = flatColorMat;
 		}
 		else {
-			this.colorMatrix = this._originalColorMat || identity();
+			this._colorMatrix = this._originalColorMat;
 		}
-		
 	}
+
 
 
 	get original() {

@@ -32,3 +32,19 @@ export function setProps(target, props, values) {
 
 	return target;
 }
+
+
+export function first(iter, condition) {
+	for(let e of iter) {
+		if(condition(e)) return e;
+	}
+
+	return null;
+}
+
+
+export const pluck = curry(
+	function(key, target) {
+		return target[key];
+	}
+);

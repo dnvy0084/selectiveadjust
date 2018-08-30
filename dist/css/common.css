@@ -10,11 +10,11 @@ body {
 }
 
 .center,.rotation {
-	fill: #888;
+	fill: #666;
 }
 
 .dotted_line {
-	stroke: #999;
+	stroke: #555;
 	stroke-width: 2px;
 	stroke-dasharray: 4;
 	fill: none;
@@ -22,7 +22,7 @@ body {
 
 .hidden_area {
 	stroke: #fff;
-	stroke-width: 10px;
+	stroke-width: 20px;
 	fill: none;
 	opacity: 0;
 }

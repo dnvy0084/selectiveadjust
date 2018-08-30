@@ -1,5 +1,6 @@
 import {onload, loadImage} from './utils/io';
-import {curry, tap, zip, setProps} from './utils/functional';
+import {curry, tap, zip, setProps, first, pluck} from './utils/functional';
+import {maybe} from './utils/maybe';
 import {getImageDataFrom, drawTo, getPixel} from './utils/canvas';
 import {getHueAngle, applySelectiveAdjust} from './utils/canvas';
 import {setAttrs} from './utils/dom';
@@ -7,12 +8,14 @@ import Ticker from './ui/Ticker';
 import {getContrastMat, getFlatColorMat4x3, identity} from './utils/matrix';
 import SelectiveColorMatrix from './filter/SelectiveColorMatrix';
 import SelectiveTool from './ui/SelectiveTool';
+import EventEmitter from 'events';
 
-export default class SelectiveAdjust {
+export default class SelectiveAdjust extends EventEmitter {
 	constructor() {
+		super();
+
 		this.view = document.querySelector('#view');
 		this.uilayer = document.querySelector('#uilayer');
-		this._interative = true;
 
 		this.bindEvents();
 		this.addEvents();
@@ -41,6 +44,8 @@ export default class SelectiveAdjust {
 		tool.on('dragStart', this.onDragStart.bind(this));
 		tool.on('dragStop', this.onDragStop.bind(this));
 		tool.on('change', this.onToolChanged.bind(this));
+		tool.on('enterEditMode', this.onEnterEditMode.bind(this));
+		tool.on('releaseEditMode', this.onReleaseEditMode.bind(this));
 	}
 
 	setImageByURL(url) {
@@ -58,11 +63,10 @@ export default class SelectiveAdjust {
 
 		filter.x = x;
 		filter.y = y;
-		filter.hue = hue;
+		filter.hueAngle = hue;
 		filter.range = getRange(0);
 		filter.original = this.source;
 		filter.radius = 100;
-		filter.colorMatrix = identity();
 
 		return filter;
 	}
@@ -101,6 +105,7 @@ export default class SelectiveAdjust {
 		this.source = imgData;
 		this.dest = new ImageData(this.source.width, this.source.height);
 		this.filters = [];
+		this.tools = [];
 		this._changed = true;
 	}
 
@@ -109,12 +114,13 @@ export default class SelectiveAdjust {
 	}
 
 	onUILayerClick(e) {
-		if(!this.interative) return;
 		if(this.filters.length > 0) return;
 
 		const filter = this.getSelectiveFilter(e.offsetX, e.offsetY)
 			, tool = new SelectiveTool();
 
+		tool.interactiveEl = '.dat_gui';
+		tool.editing = true;
 		tool.x = filter.x;
 		tool.y = filter.y;
 		tool.radius = filter.radius;
@@ -123,6 +129,7 @@ export default class SelectiveAdjust {
 		this.addToolEvents(tool);
 		this.uilayer.appendChild(tool.g);
 		this.filters.push(filter);
+		this.tools.push(tool);
 		this._changed = true;
 	}
 
@@ -147,6 +154,14 @@ export default class SelectiveAdjust {
 		this._changed = true;
 	}
 
+	onEnterEditMode(tool) {
+		this.emit('enterEditMode');
+	}
+
+	onReleaseEditMode(tool) {
+		this.emit('releaseEditMode');
+	}
+
 	onToolChanged(tool) {
 		const filter = tool.filter;
 
@@ -156,18 +171,70 @@ export default class SelectiveAdjust {
 		filter.range = getRange(tool.radian);
 
 		const pixel = getPixel(this.source, tool.x, tool.y);
-		filter.hue = getHueAngle(...pixel.map(n => n / 255.0));
+		filter.hueAngle = getHueAngle(...pixel.map(n => n / 255.0));
 
 		this._changed = true;
 	}
 
 
-	get interative() {
-		return this._interative;
+	get currentSelected() {
+		return first(this.tools || [], tool => tool.editing);
+	}
+
+
+	get brightness() {
+		return maybe(this.currentSelected)
+			.pluck('filter')
+			.pluck('brightness')
+			.get(0);
 	}
 	
-	set interative(value) {
-		this._interative = value;
+	set brightness(value) {
+		maybe(this.currentSelected)
+			.pluck('filter')
+			.do(filter => filter.brightness = value);
+	}
+
+
+	get contrast() {
+		return maybe(this.currentSelected)
+			.pluck('filter')
+			.pluck('contrast')
+			.get(1);
+	}
+	
+	set contrast(value) {
+		maybe(this.currentSelected)
+			.pluck('filter')
+			.do(filter => filter.contrast = value);
+	}
+
+
+	get hue() {
+		return maybe(this.currentSelected)
+			.pluck('filter')
+			.pluck('hue')
+			.get(0);
+	}
+	
+	set hue(value) {
+		maybe(this.currentSelected)
+			.pluck('filter')
+			.do(filter => filter.hue = value);
+	}
+
+
+	get saturation() {
+		return maybe(this.currentSelected)
+			.pluck('filter')
+			.pluck('saturation')
+			.get(1);
+	}
+	
+	set saturation(value) {
+		maybe(this.currentSelected)
+			.pluck('filter')
+			.do(filter => filter.saturation = value);
 	}
 }
 

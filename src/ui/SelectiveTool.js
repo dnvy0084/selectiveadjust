@@ -10,24 +10,29 @@ const  html = `
 <g class="hover" pointer-events="stroke">
 	<circle class="hidden_area drag_area" cx="0" cy="0" r="100"></circle>
 	<circle class="dotted_line drag_area" cx="0" cy="0" r="100"></circle>
+	<circle class="rotation drag_rotation" cx="100" cy="0" r="5" pointer-events="fill"></circle>
 </g>
-<circle class="rotation drag_rotation" cx="100" cy="0" r="5" pointer-events="fill"></circle>
 `
-
 
 export default class SelectiveTool extends EventEmitter {
 	constructor() {
 		super();
 		this.g = document.createElementNS(ns, 'g');
+		this.g.classList.add('selective_tool');
 		this.g.innerHTML = html;
 
 		this.center = this.g.querySelector('circle.center');
 		this.dotLine = this.g.querySelector('g circle.dotted_line');
 		this.hiddenArea = this.g.querySelector('g circle.hidden_area');
+		this.circle = this.g.querySelector('g.hover');
 		this.rotate = this.g.querySelector('circle.rotation');
 
 		this.identity();
+		this.bindListeners();
 		this.addEvents();
+
+		this.editing = false;
+		this.interactiveEl = undefined;
 	}
 
 	identity() {
@@ -38,11 +43,27 @@ export default class SelectiveTool extends EventEmitter {
 		this._mat = [1, 0, 0, 1, 0, 0];
 	}
 
+	bindListeners() {
+		[
+			'onTime', 
+			'onMoveStart', 
+			'onRotate', 
+			'onMouseDown',
+			'onDocumentDown',
+		].forEach(k => this[k] = this[k].bind(this));
+	}
+
 	addEvents() {
-		Ticker.instance.on('time', this.onTime.bind(this));
-		this.center.addEventListener('mousedown', this.onMoveStart.bind(this));
-		this.rotate.addEventListener('mousedown', this.onRotate.bind(this));
-		this.g.addEventListener('mousedown', this.onMouseDown.bind(this));
+		Ticker.instance.on('time', this.onTime);
+		this.center.addEventListener('mousedown', this.onMoveStart);
+		this.rotate.addEventListener('mousedown', this.onRotate);
+		this.g.addEventListener('mousedown', this.onMouseDown);
+	}
+
+	enterEditMode() {
+		if(this.editing) return;
+
+		this.editing = true;
 	}
 
 	onTime(ms) {
@@ -67,6 +88,7 @@ export default class SelectiveTool extends EventEmitter {
 		});
 
 		this.emit('dragStart', this);
+		this.enterEditMode();
 	}
 
 	onMouseDown(e) {
@@ -128,6 +150,34 @@ export default class SelectiveTool extends EventEmitter {
 
 		this.emit('change', this);
 	}
+
+
+	onDocumentDown(e) {
+		const g = closest(e.target, '.selective_tool')
+			, h = this.interactiveEl ? closest(e.target, this.interactiveEl) : null;
+
+		if(!g && !h) 
+			return this.editing = false;		
+	}
+
+
+	get editing() {
+		return this.circle.style.display != 'none';
+	}
+	
+	set editing(value) {
+		if(value) {
+			this.circle.style.display = '';
+			document.body.addEventListener('mousedown', this.onDocumentDown);
+			this.emit('enterEditMode', this);
+		}
+		else {
+			this.circle.style.display = 'none';
+			document.body.removeEventListener('mousedown', this.onDocumentDown);
+			this.emit('releaseEditMode', this);
+		}
+	}
+
 
 
 	get radius() {
