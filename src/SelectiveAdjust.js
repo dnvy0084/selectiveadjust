@@ -34,7 +34,6 @@ export default class SelectiveAdjust extends EventEmitter {
 
 	addEvents() {
 		window.addEventListener('resize', this.onResize);
-		uilayer.addEventListener('click', this.onUILayerClick);
 
 		Ticker.instance.start();
 		Ticker.instance.on('time', this.onUpdate);
@@ -69,6 +68,21 @@ export default class SelectiveAdjust extends EventEmitter {
 		filter.radius = 100;
 
 		return filter;
+	}
+
+	getSelectiveTool(filter) {
+		const tool = new SelectiveTool();
+
+		tool.interactiveEl = '.dat_gui';
+		tool.editing = true;
+		tool.x = filter.x;
+		tool.y = filter.y;
+		tool.radius = filter.radius;
+		tool.filter = filter;
+
+		this.addToolEvents(tool);
+
+		return tool;
 	}
 
 	resizeView(img = this.sourceImg) {
@@ -114,23 +128,15 @@ export default class SelectiveAdjust extends EventEmitter {
 	}
 
 	onUILayerClick(e) {
-		if(this.filters.length > 0) return;
-
 		const filter = this.getSelectiveFilter(e.offsetX, e.offsetY)
-			, tool = new SelectiveTool();
+			, tool = this.getSelectiveTool(filter);
 
-		tool.interactiveEl = '.dat_gui';
-		tool.editing = true;
-		tool.x = filter.x;
-		tool.y = filter.y;
-		tool.radius = filter.radius;
-		tool.filter = filter;
-
-		this.addToolEvents(tool);
 		this.uilayer.appendChild(tool.g);
 		this.filters.push(filter);
 		this.tools.push(tool);
+
 		this._changed = true;
+		this.appendable = false;
 	}
 
 	onUpdate(e) {
@@ -179,6 +185,30 @@ export default class SelectiveAdjust extends EventEmitter {
 
 	get currentSelected() {
 		return first(this.tools || [], tool => tool.editing);
+	}
+
+
+	get appendable() {
+		return this._appendable || false;
+	}
+	
+	set appendable(value) {
+		if(value == this.appendable) return;
+
+		this._appendable = value;
+
+		if(value) {
+			this.uilayer.addEventListener('mousedown', this.onUILayerClick);
+		}
+		else {
+			this.uilayer.removeEventListener('mousedown', this.onUILayerClick);
+		}
+
+		this.emit('appendModeChange', {
+			type: 'appendModeChange',
+			target: this,
+			appendable: value
+		});
 	}
 
 

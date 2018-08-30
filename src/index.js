@@ -30,6 +30,7 @@ function initGUI(app) {
 			[app, 'contrast', 0.5, 2],
 			[app, 'saturation', 0, 3],
 			[app, 'hue', 0, 360],
+			[app, 'appendable'],
 		]
 		.map(args => gui.add(...args).listen())
 		.map(tap(control => control.onChange(onChange)));
@@ -37,6 +38,7 @@ function initGUI(app) {
 	gui.domElement.classList.add('dat_gui');
 	app.on('enterEditMode', onChangeEditMode);
 	app.on('releaseEditMode', onChangeEditMode);
+	app.on('appendModeChange', onChangeEditMode);
 
 	function onChange(e) {
 		app._changed = true;

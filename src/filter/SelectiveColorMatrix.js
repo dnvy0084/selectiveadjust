@@ -92,7 +92,10 @@ export default class SelectiveColorMatrix {
 
 	get colorMatrix() {
 		if(this._changed) {
-			const lumR = 0.2125
+			const b = this.brightness
+				, c = this.contrast
+				, tc = c * b + 128 * (1 - c)
+				, lumR = 0.2125
 				, lumG = 0.7154
 				, lumB = 0.0721
 				, s = this.saturation
@@ -101,9 +104,9 @@ export default class SelectiveColorMatrix {
 				, sb = (1 - s) * lumB;
 
 			this._colorMatrix = [
-				sr + s, sg, sb, 0,
-				sr, sg + s, sb, 0,
-				sr, sg, sb + s, 0,
+				c * (sr + s), c * sg, c * sb, tc,
+				c * sr, c * (sg + s), c * sb, tc,
+				c * sr, c * sg, c * (sb + s), tc,
 			];
 		}
 
