@@ -156,7 +156,7 @@ export default class SelectiveTool extends EventEmitter {
 		const g = closest(e.target, '.selective_tool')
 			, h = this.interactiveEl ? closest(e.target, this.interactiveEl) : null;
 
-		if(!g && !h) 
+		if(g != this.g && !h) 
 			return this.editing = false;		
 	}
 
