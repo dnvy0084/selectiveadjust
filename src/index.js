@@ -7,6 +7,7 @@ import {getHueAngle} from './utils/canvas';
 import SelectiveTool from './ui/SelectiveTool';
 import SelectiveAdjust from './SelectiveAdjust'
 import {closest} from './utils/dom';
+import './algo.js';
 
 window.maybe = maybe;
 
@@ -48,7 +49,6 @@ function initGUI(app) {
 		controls.map(c => c.updateDisplay());
 	}
 }
-
 
 
 
@@ -121,8 +121,9 @@ function toString(task) {
 	console.log(str);
 }
 
-// [...range(5, 10)]
-// 	.map(n => generateTask(n, n, 4))
-// 	.forEach(task => toString(task));
+// [...range(10, 15)]
+// 	.map(n => generateTask(n, n, 2))
+// 	.map(tap(toString))
+// 	.forEach(task => console.log(JSON.stringify(task)));//toString(task));
 
 
