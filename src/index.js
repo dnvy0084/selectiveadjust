@@ -25,6 +25,18 @@ function initApp() {
 }
 
 function initGUI(app) {
+	Object.defineProperty(window, 'uiVisible', {
+		get: function() {
+			return app.uilayer.style.display != 'none';
+		},
+
+		set: function(value) {
+			const display = value ? '' : 'none';
+
+			app.uilayer.style.display = display;
+		}
+	});
+	
 	const gui = new dat.GUI()
 		, controls = [
 			[app, 'brightness', -255, 255],
@@ -32,6 +44,7 @@ function initGUI(app) {
 			[app, 'saturation', 0, 3],
 			[app, 'hue', 0, 360],
 			[app, 'appendable'],
+			[window, 'uiVisible'],
 		]
 		.map(args => gui.add(...args).listen())
 		.map(tap(control => control.onChange(onChange)));
