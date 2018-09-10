@@ -1,5 +1,5 @@
 # Selective Adjust
-[snapseed](https://itunes.apple.com/kr/app/snapseed/id439438619?mt=8), [lightRoom](https://itunes.apple.com/kr/app/adobe-lightroom-cc/id878783582?mt=8)등의 모바일 사진 편집 어플리케이션에서 제공하는 selective adjust 필터를 canvas를 이용해 구현해보며 이미지 필터의 기본 로직과 구현 과정을 알아봅니다. 
+[snapseed][link_snapseed], [lightRoom][link_lightRoom]등의 모바일 사진 편집 어플리케이션에서 제공하는 selective adjust 필터를 canvas를 이용해 구현해보며 이미지 필터의 기본 로직과 구현 과정을 알아봅니다. 
 
 ## 캔버스 생성 및 이미지 그리기
 
@@ -22,3 +22,7 @@
 ### 밝기, 대비 등 기본 보정 적용
 
 ### ColorMatrix로 변환
+
+
+[link_snapseed]:https://itunes.apple.com/kr/app/snapseed/id439438619?mt=8
+[link_lightRoom]:https://itunes.apple.com/kr/app/adobe-lightroom-cc/id878783582?mt=8
