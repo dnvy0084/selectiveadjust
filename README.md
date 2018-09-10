@@ -24,16 +24,21 @@ const context = canvas.getContext('2d');
 
 ### 이미지 그리기
 
-```javascript
-context.beginPath();
-     context.moveTo(0, 0);
-     context.lineTo(100, 100);
-     context.lineTo(0, 100);
-     context.lineTo(0, 0);
-context.stroke();
+* canvas는 다양한 그래픽 API를 지원합니다. 그 중에는 moveTo(), lineTo(), stroke()같은 선을 그리는 API도 있고, rect(), arc(), fill() 등 도형을 그리는 API도 있습니다. 하지만 보통의 실무에서는 디자이너가 제작한 리소스를 사용합니다.
+
+HTML
+```html
+<img id="sample" src="img/sample.jpg">
 ```
 
-* 
+JS
+```javascript
+const sample = document.querySelector('#sample');
+
+context.drawImage(sample, 0, 0);
+```
+
+* drawImage를 사용하여 \<img\> 엘리먼트의 이미지를 좌표(0, 0)에 그리는 코드입니다.
 
 ## Pixel 가져오기
 
