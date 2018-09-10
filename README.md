@@ -21,17 +21,17 @@ _code 1-2_
 
 * Code 1-1과 같이 HTML에 태그로 생성하여 사용할 수 있습니다. 물론 다른 요소와 같이 Javascript를 통해 생성하여 사용 할 수도 있습니다.
 
-### 이미지 그리기
+## 이미지 그리기
 
-### Pixel 가져오기
+## Pixel 가져오기
 
-### HSL로 변환하기
+## HSL로 변환하기
 
-### 선택 영역 제어
+## 선택 영역 제어
 
-### 밝기, 대비 등 기본 보정 적용
+## 밝기, 대비 등 기본 보정 적용
 
-### ColorMatrix로 변환
+## ColorMatrix로 변환
 
 
 [link_snapseed]:https://itunes.apple.com/kr/app/snapseed/id439438619?mt=8
