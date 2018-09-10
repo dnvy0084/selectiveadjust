@@ -9,21 +9,22 @@
      
 * HTML5에 추가된 HTML 요소 중 하나입니다. 다양한 그래픽 API를 지원하여 브라우저에서 그림, 사진 등을 그리거나 애니메이션을 만드는데 사용됩니다. Vector Graphic인 \<SVG\> 요소와는 달리 주로 비트맵 그래픽을 그리거나 제어하는데 특화되어 있습니다. 
 
+HTML
 ```html
-<canvas width="800" height="600"></canvas>
+<canvas id="view" width="800" height="600"></canvas>
 ```
-_code 1-1_
 
+JS
 ```javascript
-const canvas = document.createElement('canvas');
-canvas.width = 800;
-canvas.height = 600;
+const canvas = document.querySelector('#view');
+const context = canvas.getContext('2d');
 ```
-_code 1-2_
 
-* Code 1-1과 같이 HTML에 태그로 생성하여 사용할 수 있습니다. 물론 다른 요소와 같이 Javascript를 통해 생성하여 사용 할 수도 있습니다.
+* HTML의 요소로 생성한 canvas의 ```getContext('2d')```를 호출하여 context 객체를 가져옵니다. 이 context 객체에 canvas에서 제공하는 그래픽 API가 내장되어 있습니다.
 
 ### 이미지 그리기
+
+* ```stroke```와 ```fill```
 
 ## Pixel 가져오기
 
