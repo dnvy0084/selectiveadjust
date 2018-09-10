@@ -6,6 +6,10 @@
 Canvas란?
      
 * HTML5에 추가된 HTML 요소 중 하나입니다. 다양한 그래픽 API를 지원하여 브라우저에서 그림, 사진 등을 그리거나 애니메이션을 만드는데 사용됩니다. Vector Graphic인 \<SVG\> 요소와는 달리 주로 비트맵 그래픽을 그리거나 제어하는데 특화되어 있습니다. 
+
+```javascript
+<canvas width="800" height="600"></canvas>
+```
    
 이미지 그리기
 
