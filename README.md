@@ -20,11 +20,20 @@ const canvas = document.querySelector('#view');
 const context = canvas.getContext('2d');
 ```
 
-* HTML의 요소로 생성한 canvas의 ```getContext('2d')```를 호출하여 context 객체를 가져옵니다. 이 context 객체에 canvas에서 제공하는 그래픽 API가 내장되어 있습니다.
+* HTML의 요소로 생성한 canvas의 ```getContext('2d')```를 호출하여 context 객체를 가져옵니다. 이 context 객체에 canvas에서 제공하는 대부분의 그래픽 API가 있습니다.
 
 ### 이미지 그리기
 
-* ```stroke```와 ```fill```
+```javascrt
+context.beginPath();
+     context.moveTo(0, 0);
+     context.lineTo(100, 100);
+     context.lineTo(0, 100);
+     context.lineTo(0, 0);
+context.stroke();
+```
+
+* 
 
 ## Pixel 가져오기
 
