@@ -25,6 +25,8 @@ const context = canvas.getContext('2d');
 ### 이미지 그리기
 
 ```javascrt
+const context = canvas.getContext('2d');
+
 context.beginPath();
      context.moveTo(0, 0);
      context.lineTo(100, 100);
