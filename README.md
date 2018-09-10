@@ -10,11 +10,17 @@
 ```html
 <canvas width="800" height="600"></canvas>
 ```
+_code 1-1_
 
 ```javascript
-document.createElement('canvas');
+const canvas = document.createElement('canvas');
+canvas.width = 800;
+canvas.height = 600;
 ```
-   
+_code 1-2_
+
+* Code 1-1과 같이 HTML에 태그로 생성하여 사용할 수 있습니다. 물론 다른 요소와 같이 Javascript를 통해 생성하여 사용 할 수도 있습니다.
+
 ### 이미지 그리기
 
 ### Pixel 가져오기
