@@ -10,6 +10,10 @@
 ```html
 <canvas width="800" height="600"></canvas>
 ```
+
+```javascript
+document.createElement('canvas');
+```
    
 ### 이미지 그리기
 
