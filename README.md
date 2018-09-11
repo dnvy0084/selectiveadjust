@@ -50,7 +50,7 @@ const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.
 
 * 이제 사용자가 선택한 마우스 좌표의 픽셀 정보가 필요합니다. getImageData를 이용하면 현재 canvas에 그려진 픽셀 정보를 가져 올 수 있습니다. ImageData는 이미지를 이루고 있는 각 픽셀의 정보를 배열로 가지고 있는데요, 샘플 이미지는 아래처럼 16만개로 이루어져 있습니다. 
 
-
+![image data sample][img_imagedata]
 
 ## HSL로 변환하기
 
@@ -64,3 +64,5 @@ const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.
 [link_snapseed]:https://itunes.apple.com/kr/app/snapseed/id439438619?mt=8
 [link_lightRoom]:https://itunes.apple.com/kr/app/adobe-lightroom-cc/id878783582?mt=8
 [link_sample]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/
+
+[img_imagedata]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/imagedata_sample.png
