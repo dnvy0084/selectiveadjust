@@ -42,6 +42,14 @@ context.drawImage(sample, 0, 0);
 
 ## Pixel 가져오기
 
+### ImageData
+
+```javascript
+context.getImageData(0, 0, context.canvas.width, context.canvas.height);
+```
+
+* 
+
 ## HSL로 변환하기
 
 ## 선택 영역 제어
