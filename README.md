@@ -78,7 +78,7 @@ getPixel(x, y, imgData) {
 
 * Selective Adjust는 비슷한 색상의 픽셀만 보정 효과를 적용하는데요, 그러기 위해 마우스 좌표 픽셀의 색상을 알아야 합니다. 색상은 HSL이라는 색좌표계의 H값에 해당하는데요, 포토샵을 사용해본 경험이 있다면 HSL 컬러 피커를 보신적이 있을겁니다. 
 
-
+![photoshop colorpicker][img_photoshop]
 
 ## 선택 영역 제어
 
@@ -94,3 +94,4 @@ getPixel(x, y, imgData) {
 [img_imagedata]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/imagedata_sample.png
 [img_rgb_cube]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/rgb_cube.png
 [img_monitor]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/monitor_rgb.jpeg
+[img_photoshop]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/photoshop.png
