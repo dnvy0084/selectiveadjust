@@ -56,6 +56,8 @@ const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.
 
 ![rgb cube][img_rgb_cube]
 
+![screen][img_monitor]
+
 ```javascript
 getPixel(x, y, imgData) {
      const index = 4 * (y * imgData.width + x);
@@ -85,3 +87,4 @@ getPixel(x, y, imgData) {
 
 [img_imagedata]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/imagedata_sample.png
 [img_rgb_cube]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/rgb_cube.png
+[img_monitor]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/monitor_rgb.jpeg
