@@ -42,6 +42,16 @@ context.drawImage(sample, 0, 0);
 
 ## Pixel 가져오기
 
+### ImageData
+
+```javascript
+const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
+```
+
+* 이제 사용자가 선택한 마우스 좌표의 픽셀 정보가 필요합니다. getImageData를 이용하면 현재 canvas에 그려진 픽셀 정보를 가져 올 수 있습니다. ImageData는 이미지를 이루고 있는 각 픽셀의 정보를 배열로 가지고 있는데요, 샘플 이미지는 아래처럼 16만개로 이루어져 있습니다. 
+
+
+
 ## HSL로 변환하기
 
 ## 선택 영역 제어
