@@ -52,7 +52,17 @@ const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.
 
 ![image data sample][img_imagedata]
 
-* 800x500 이미지로 픽셀 개수는 40,000개지만 한 픽셀당 Red, Green, Blue, Alpha 4가지 값을 가지고 있어 총 16만개의 숫자들로 저장되어 있습니다. 
+* 800x500 이미지로 픽셀 개수는 40,000개지만 한 픽셀당 Red, Green, Blue, Alpha 4가지 값을 가지고 있어 총 16만개의 숫자들을 가지고 있습니다. RGB는 가장 기본적인 색좌표계로 컴퓨터에서 주로 사용됩니다. 
+
+```javascript
+getPixel(x, y, imgData) {
+     const index = 4 * (y * imgData.width + x);
+     
+     return imgData.data[index];
+}
+```
+
+
 
 ## HSL로 변환하기
 
