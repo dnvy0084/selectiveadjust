@@ -7,7 +7,6 @@ import {getHueAngle} from './utils/canvas';
 import SelectiveTool from './ui/SelectiveTool';
 import SelectiveAdjust from './SelectiveAdjust'
 import {closest} from './utils/dom';
-import './algo.js';
 
 window.maybe = maybe;
 
