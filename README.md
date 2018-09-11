@@ -56,6 +56,12 @@ const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.
 
 ![rgb cube][img_rgb_cube]
 
+* Red, Green, Blue 각 채널은 스크린을 아래 그림처럼 확대했을 때 보이는 led의 밝기를 뜻합니다.
+
+![screen][img_monitor]
+
+* imageData는 pixel 정보를 1차원 배열로 가지고 있어 마우스 좌표 y에 이미지의 가로 길이를 곱하고 x를 더해주면 해당 좌표의 Red 채널 index를 구할 수 있습니다.
+
 ```javascript
 getPixel(x, y, imgData) {
      const index = 4 * (y * imgData.width + x);
@@ -68,9 +74,11 @@ getPixel(x, y, imgData) {
 }
 ```
 
-
-
 ## HSL로 변환하기
+
+* Selective Adjust는 비슷한 색상의 픽셀만 보정 효과를 적용하는데요, 그러기 위해 마우스 좌표 픽셀의 색상을 알아야 합니다. 색상은 HSL이라는 색좌표계의 H값에 해당하는데요, 포토샵을 사용해본 경험이 있다면 HSL 컬러 피커를 보신적이 있을겁니다. 
+
+
 
 ## 선택 영역 제어
 
@@ -85,3 +93,4 @@ getPixel(x, y, imgData) {
 
 [img_imagedata]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/imagedata_sample.png
 [img_rgb_cube]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/rgb_cube.png
+[img_monitor]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/monitor_rgb.jpeg
