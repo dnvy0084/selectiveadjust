@@ -1,4 +1,8 @@
 
+/**
+ * onload::EventEmitter => Promise
+ * onload(window).then(window => console.log(window));
+ */
 export function onload(target) {
 	if(target.complete) return Promise.resolve(target);
 
@@ -27,7 +31,10 @@ export function onload(target) {
 	});
 }
 
-
+/**
+ * loadImage::String => Promise
+ * loadImage('./img/sample.jpg').then(img => console.log(img));
+ */
 export function loadImage(src) {
 	const img = document.createElement('img');
 	img.src = src;

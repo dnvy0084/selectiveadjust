@@ -16,6 +16,9 @@ onload(window)
 	.then(initGUI);
 
 
+/**
+ * 메인 클래스 생성. 샘플 이미지 로드
+ */
 function initApp() {
 	const app = new SelectiveAdjust();
 	app.setImageByURL('./img/sample.jpg');

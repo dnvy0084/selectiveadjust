@@ -53,6 +53,12 @@ class Nothing extends Just {
 	}
 }
 
+/**
+ * maybe::Any => Just or Nothing
+ * 1. null일 수도 있는 객체를 받아 Just나 Nothing Monad를 반환한다. 
+ * 2. Just나 Nothing의 map, pluck, do, get을 이용해 제어할 수 있다. 
+ * 3. null 체크가 필요없어진다. 
+ */
 export function maybe(e) {
 	return Just.of(e);
 }
