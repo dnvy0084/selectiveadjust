@@ -8,8 +8,9 @@ import SelectiveTool from './ui/SelectiveTool';
 import SelectiveAdjust from './SelectiveAdjust'
 import {closest} from './utils/dom';
 
-window.maybe = maybe;
-
+/**
+ * window.onload시 앱 생성, UI 초기화. 
+ */
 onload(window)
 	.then(initApp)
 	.then(initGUI);
@@ -61,81 +62,3 @@ function initGUI(app) {
 		controls.map(c => c.updateDisplay());
 	}
 }
-
-
-
-//====================================================================
-//
-// Algo Sample
-//
-//====================================================================
-
-function _curry(f) {
-	return function(...range) {
-		if(range.length >= f.length) 
-			return f(...range);
-
-		return _curry(f.bind(null, ...range));
-	}
-}
-
-function _curry2(f) {
-	function _fscope(...args) {
-		return function(...rest) {
-			if(args.length + rest.length >= f.length) 
-				return f(...args, ...rest);
-
-			return _fscope(...args, ...rest);
-		}
-	}
-
-	return _fscope();
-}
-
-function range(a, b) {
-	let [i, len] = typeof b === 'undefined' ? [0, a] : [a, b];
-
-	return {
-		[Symbol.iterator]() {
-			return {
-				next() {
-					if(i >= len) return {done: true};
-
-					return {value: i++, done: false};
-				}
-			}
-		}
-	}
-}
-
-function generateString(alphabetRange, len) {
-	const a = 'A'.charCodeAt(0)
-		, charCodes = [...range(len)]
-			.map(n => a + (alphabetRange * Math.random() | 0));
-
-	return String.fromCharCode(...charCodes);
-}
-
-function generateTask(width, height, alphabetRange) {
-	const generateStringUntilRange = 
-		_curry(generateString)(alphabetRange);
-
-	return [...range(height)]
-		.map(n => width)
-		.map(generateStringUntilRange);
-}
-
-function toString(task) {
-	const str = task
-		.map(str => str.match(/./g).join(' '))
-		.join('\n');
-
-	console.log(str);
-}
-
-// [...range(10, 15)]
-// 	.map(n => generateTask(n, n, 2))
-// 	.map(tap(toString))
-// 	.forEach(task => console.log(JSON.stringify(task)));//toString(task));
-
-

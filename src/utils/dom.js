@@ -11,6 +11,10 @@ export function closest(target, selector) {
 	return closest(target.parentNode, selector);
 }
 
+/**
+ * setAttrs::(HTMLElement, Object) => Void;
+ * setAttrs(div, {'attr':'test'}) => Void
+ */
 export function setAttrs(target, attrs) {
 	for(let k in attrs) {
 		target.setAttribute(k, attrs[k]);
