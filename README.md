@@ -58,7 +58,11 @@ const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.
 getPixel(x, y, imgData) {
      const index = 4 * (y * imgData.width + x);
      
-     return imgData.data[index];
+     return {
+          r: imgData.data[index    ],
+          g: imgData.data[index + 1],
+          b: imgData.data[index + 2]
+     }
 }
 ```
 
