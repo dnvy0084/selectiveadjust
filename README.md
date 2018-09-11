@@ -54,7 +54,7 @@ const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.
 
 * 800x500 이미지로 픽셀 개수는 40,000개지만 한 픽셀당 Red, Green, Blue, Alpha 4가지 값을 가지고 있어 총 16만개의 숫자들을 가지고 있습니다. RGB는 가장 기본적인 색좌표계로 컴퓨터에서 주로 사용됩니다. 3차원 좌표계에 표시를 하면 아래 그림처럼 정육면체의 모양을 가지고 있습니다. 
 
-
+![rgb cube][img_rgb_cube]
 
 ```javascript
 getPixel(x, y, imgData) {
@@ -84,3 +84,4 @@ getPixel(x, y, imgData) {
 [link_sample]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/
 
 [img_imagedata]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/imagedata_sample.png
+[img_rgb_cube]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/rgb_cube.png
