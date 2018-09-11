@@ -80,6 +80,8 @@ getPixel(x, y, imgData) {
 
 ![photoshop colorpicker][img_photoshop]
 
+색상(Hue)을 선택 후 채도(Saturation)와 밝기(Lightness)를 조절하여 색을 선택하는 방식입니다. 
+
 ## 선택 영역 제어
 
 ## 밝기, 대비 등 기본 보정 적용
