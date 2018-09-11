@@ -44,11 +44,13 @@ context.drawImage(sample, 0, 0);
 
 ### ImageData
 
+* 이제 사용자가 선택한 마우스 좌표의 Pixel 정보가 필요합니다. 
+
 ```javascript
 context.getImageData(0, 0, context.canvas.width, context.canvas.height);
 ```
 
-* 
+* getImageData를 이용해 현재 canvas에 그려진 픽셀 정보를 가져 올 수 있습니다. 
 
 ## HSL로 변환하기
 
