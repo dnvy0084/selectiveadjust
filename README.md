@@ -52,6 +52,8 @@ const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.
 
 ![image data sample][img_imagedata]
 
+* 800x500 이미지로 픽셀 개수는 40,000개지만 한 픽셀당 Red, Green, Blue, Alpha 4가지 값을 가지고 있어 총 16만개의 숫자들로 저장되어 있습니다. 
+
 ## HSL로 변환하기
 
 ## 선택 영역 제어
