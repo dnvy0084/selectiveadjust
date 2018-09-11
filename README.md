@@ -50,13 +50,13 @@ const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.
 
 * 이제 사용자가 선택한 마우스 좌표의 픽셀 정보가 필요합니다. getImageData를 이용하면 현재 canvas에 그려진 픽셀 정보를 가져 올 수 있습니다. ImageData는 이미지를 이루고 있는 각 픽셀의 정보를 배열로 가지고 있는데요, 샘플 이미지는 아래처럼 16만개로 이루어져 있습니다. 
 
-<div style="text-align:center"><img src ="https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/imagedata_sample.png" /></div>
-
 ![image data sample][img_imagedata]
 
 * 800x500 이미지로 픽셀 개수는 40,000개지만 한 픽셀당 Red, Green, Blue, Alpha 4가지 값을 가지고 있어 총 16만개의 숫자들을 가지고 있습니다. RGB는 가장 기본적인 색좌표계로 컴퓨터에서 주로 사용됩니다. 3차원 좌표계에 표시를 하면 아래 그림처럼 정육면체의 모양을 가지고 있습니다. 
 
 ![rgb cube][img_rgb_cube]
+
+* Red, Green, Blue 각 채널은 스크린을 아래 그림처럼 확대했을 때 보이는 led의 밝기를 뜻합니다.
 
 ![screen][img_monitor]
 
