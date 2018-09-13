@@ -120,4 +120,4 @@ getPixel(x, y, imgData) {
 
 [math_tan]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/tan.png
 [math_tan-1]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/atan.png
-[math_getAngle]:
+[math_getAngle]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/getAngle.png
