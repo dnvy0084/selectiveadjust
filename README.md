@@ -201,6 +201,36 @@ b = s * b + sr + sg + sb;
 
 ## ColorMatrix로 변환
 
+샘플 이미지의 픽셀 개수는 40,000개입니다. Selective Adjust 필터가 하나 추가될 때마다 4만번의 for loop가 추가되는데요, 그래서 보정을 각각 계산하지 않고 for loop전에 하나의 행렬로 합쳐 loop 내에서의 계산을 줄입니다. 
+
+![행렬][math_mat]
+
+행렬은 수나 기호, 수식 등을 네모꼴로 배열한 것으로 가로줄을 행, 세로줄을 열이라고 부릅니다. 2개 이상의 방정식을 푸는데 유용하게 사용되는데요, 여기서는 밝기, 대비, 채도 등의 식들을 연산하는데 사용할 수 있습니다. 
+
+```javascript
+for(var i = 0; i < len; i += 4) {
+	r = srcData[i    ];
+	g = srcData[i + 1];
+	b = srcData[i + 2];
+
+	j = i / 4
+	x = j % width;
+	y = j / width | 0;
+
+	hue2 = getHueAngle(orgData[i] / 255, orgData[i + 1] / 255, orgData[i + 2] / 255);
+	f = Math.max(0, 1 - Math.abs(hue - hue2) / t);
+
+	tr = _a * r + _d * g + _g * b + _j;
+	tg = _b * r + _e * g + _h * b + _k;
+	tb = _c * r + _f * g + _i * b + _l;
+
+	destData[i] = r + f * (tr - r);
+	destData[i + 1] = g + f * (tg - g);
+	destData[i + 2] = b + f * (tb - b);
+	destData[i + 3] = srcData[i + 3];
+}
+```
+
 
 [link_snapseed]:https://itunes.apple.com/kr/app/snapseed/id439438619?mt=8
 [link_lightRoom]:https://itunes.apple.com/kr/app/adobe-lightroom-cc/id878783582?mt=8
@@ -225,3 +255,4 @@ b = s * b + sr + sg + sb;
 [vec_dot_4]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/vec_dot_5.png
 [math_len]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/len.png
 [math_pita]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/pita.png
+[math_mat]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/mat.png
