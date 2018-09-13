@@ -219,6 +219,8 @@ b = s * b + sr + sg + sb;
 
 ![채도 행렬][math_mat_satu]
 
+### 픽셀 제어
+
 ```javascript
 for(var i = 0; i < len; i += 4) {
 	r = srcData[i    ];
@@ -236,14 +238,14 @@ for(var i = 0; i < len; i += 4) {
 	tg = _b * r + _e * g + _h * b + _k;
 	tb = _c * r + _f * g + _i * b + _l;
 
-	destData[i] = r + f * (tr - r);
+	destData[i    ] = r + f * (tr - r);
 	destData[i + 1] = g + f * (tg - g);
 	destData[i + 2] = b + f * (tb - b);
 	destData[i + 3] = srcData[i + 3];
 }
 ```
 
-\begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix} \times \begin{bmatrix} r \\ g \\ b \\ 1 \end{bmatrix}
+for loop내에서 픽셀들의 hue 각도를 체크해서 선택한 픽셀과의 차이를 구하고 보정이 적용된 행렬을 곱한 결과값과 보간을 해줍니다. 
 
 
 [link_snapseed]:https://itunes.apple.com/kr/app/snapseed/id439438619?mt=8
