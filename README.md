@@ -123,6 +123,7 @@ Selective Adjust는 비슷한 색상의 픽셀만 보정 효과를 적용하는�
 [img_photoshop]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/photoshop.png
 [img_hexagon]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/RGB-Cube.PNG
 [img_hsbcylinder]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/hsb_cylinder_capture.png
+[img_axis]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/axis.jpg
 
 [math_tan]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/tan.png
 [math_tan-1]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/atan.png
