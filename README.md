@@ -150,6 +150,6 @@ Selective Adjust는 비슷한 색상의 픽셀만 보정 효과를 적용하는�
 [vec_dot_1]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/vec_dot_1.png
 [vec_dot_2]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/vec_dot_2.png
 [vec_dot_3]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/vec_dot_3.png
-[vec_dot_4]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/vec_dot_4.png
+[vec_dot_4]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/vec_dot_5.png
 [math_len]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/len.png
 [math_pita]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/pita.png
