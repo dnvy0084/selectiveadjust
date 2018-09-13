@@ -116,5 +116,5 @@ getPixel(x, y, imgData) {
 [img_hexagon]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/RGB-Cube.PNG
 [img_hsbcylinder]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/hsb_cylinder_capture.png
 
-[math_tan]:http://chart.apis.google.com/chart?cht=tx&chl=tan(%5Ctheta)%20%3D%20%5Cfrac%7By%7D%7Bx%7D%0A%0A%0A%0A
-[math_tan-1]:http://chart.apis.google.com/chart?cht=tx&chl=%5Ctheta%20%3D%20tan%5E%7B-1%7D(%5Cfrac%7By%7D%7Bx%7D)%0A
+[math_tan]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/tan.png
+[math_tan-1]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/atan.png
