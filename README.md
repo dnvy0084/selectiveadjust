@@ -104,7 +104,25 @@ Selective Adjust는 비슷한 색상의 픽셀만 보정 효과를 적용하는�
 
 ![1,1,1 축에 대한 각도 구하기][img_axis]
 
+### 벡터와 내적
 
+벡터란 크기와 방향을 가진 어떤 양으로 정의되는 기하학적 단위입니다. (1, 0)은 x축을 나타내기도 하지만 3시 방향으로 1의 크기(혹은 길이)를 가진 어떤 양으로도 바꿔 말할 수 있습니다. 마우스 좌표의 픽셀은 R,G,B라는 3차원 공간에서 어떤 방향과 크기를 나타내고, 위에서 구한 (1, 1, 1), (1, 1, -1), (1, -1, -1)도 모두 벡터라고 말할 수 있습니다. 벡터끼리는 기본적인 4칙연산 이외에도 내적(dot product)이라는 특별한 연산이 있는데요, 다음과 같습니다. 
+
+![벡터 내적]:[vec_dot_1]
+
+![벡터 내적]:[vec_dot_2]
+
+두 계산 결과는 동일합니다. 이때 B벡터의 길이를 의도적으로 1로 맞추면 아래처럼 바꿀 수 있는데요, 이 경우 A벡터를 직각삼각형의 빗변이라고 봤을 때 밑변을 구하는 식과 동일해 집니다. 
+
+![벡터 내적]:[vec_dot_3]
+
+![벡터 내적]:[vec_dot_4]
+
+이걸 이용해서 마우스 좌표의 픽셀을 (1, 1, -1)축의 길이와 (1, -1, -1)축의 길이로 계산할 수 있습니다. 
+
+![피타고라스정리]:[vec_dot_3]
+
+![길이 1인벡터]:[vec_dot_4]
 
 ## 선택 영역 제어
 
@@ -129,3 +147,9 @@ Selective Adjust는 비슷한 색상의 픽셀만 보정 효과를 적용하는�
 [math_tan-1]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/atan.png
 [math_getAngle]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/getAngle.png
 [math_tri]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/triangle.jpg
+[vec_dot_1]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/vec_dot_1.png
+[vec_dot_2]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/vec_dot_2.png
+[vec_dot_3]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/vec_dot_3.png
+[vec_dot_4]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/vec_dot_4.png
+[math_len]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/len.png
+[math_pita]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/pita.png
