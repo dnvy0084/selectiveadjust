@@ -94,9 +94,11 @@ getPixel(x, y, imgData) {
 
 ### 임의의 축에 대한 각도 구하기
 
-현재 마우스 좌표의 z축에 대한 각도는 좌표 x, y의 
+현재 마우스 좌표의 z축에 대한 각도는 직각삼각형에서 좌표 x, y의 탄젠트 theta 값과 같으니 탄젠트 역함수를 이용해 아래와 같이 구할 수 있습니다.
 
-![tan][math_tan] => ![atan][math_tan-1]
+![각도 구하기][math_getAngle]
+
+다만 우리가 구해야 될 값은 원점(0, 0, 0)에서 정점(1, 1, 1)로 이어지는 가상의 축에 대해 현재 마우스 좌표의 각도입니다. 
 
 ## 선택 영역 제어
 
@@ -118,3 +120,4 @@ getPixel(x, y, imgData) {
 
 [math_tan]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/tan.png
 [math_tan-1]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/atan.png
+[math_getAngle]:
