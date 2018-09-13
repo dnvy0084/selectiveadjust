@@ -94,9 +94,9 @@ getPixel(x, y, imgData) {
 
 ### 임의의 축에 대한 각도 구하기
 
-현재 마우스 좌표의 x축이나 y축에 대한 각도는 
+현재 마우스 좌표의 z축에 대한 각도는 좌표 x, y의 
 
-![tan][math_tan]  ![atan][math_tan-1]
+![tan][math_tan] => ![atan][math_tan-1]
 
 ## 선택 영역 제어
 
