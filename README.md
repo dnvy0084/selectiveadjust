@@ -74,11 +74,29 @@ getPixel(x, y, imgData) {
 }
 ```
 
-## HSL로 변환하기
+## HSB로 변환하기
 
-* Selective Adjust는 비슷한 색상의 픽셀만 보정 효과를 적용하는데요, 그러기 위해 마우스 좌표 픽셀의 색상을 알아야 합니다. 색상은 HSL이라는 색좌표계의 H값에 해당하는데요, 포토샵을 사용해본 경험이 있다면 HSL 컬러 피커를 보신적이 있을겁니다. 
+### Hue값 알아오기
 
+* Selective Adjust는 비슷한 색상의 픽셀만 보정 효과를 적용하는데요, 그러기 위해 마우스 좌표 픽셀의 색상을 알아야 합니다. 색상은 HSB이라는 색좌표계의 H값에 해당하는데요, 포토샵을 사용해본 경험이 있다면 HSB 컬러 피커를 보신적이 있을겁니다. 
 
+![photoshop colorpicker][img_photoshop]
+
+색상(Hue)을 선택 후 채도(Saturation)와 밝기(Brightness)를 조절하여 색을 선택하는 방식입니다. RGB 색 좌표계보다 직관적인 방식이라 포토샵같은 이미지 편집 프로그램에서 많이 사용됩니다. 
+
+그림 - RGB Cube 육각형
+
+위에서 본 RGB Cube를, 원점(0, 0, 0)에서 대각선 정점(1, 1, 1)을 이은 일직선 상에서 보면 위 그림처럼 6각형으로 볼 수 있습니다. 상단의 Red를 0도로 120도와 240도에 Green, Blue가 오고 그 사이가 그라데이션으로 채워집니다. 포토샵의 색상바도 빨간색으로 시작해서 빨간색으로 끝나는데요, 6각형에서 확인할 수 있는 것처럼 0도에서 360도의 원형 분포를 가지고 있기 때문입니다. 
+
+그림 - HSB 실린더
+
+그럼 마우스 좌표로 가져온 픽셀(RGB)도 흰색(1, 1, 1) 위치에서 바라보면 일정한 각도를 측정할 수 있고, 샘플 이미지를 이루는 다른 픽셀들도 동일하게 각도를 확인 할 수 있습니다. 이렇게 측정한 각도가 비슷한 픽셀만 정해진 효과를 적용한다면 비슷한 색상만 제어할 수 있게됩니다. 
+
+### 임의의 축에 대한 각도 구하기
+
+현재 마우스 좌표의 x축이나 y축에 대한 각도는 
+
+![tan][math_tan] 
 
 ## 선택 영역 제어
 
@@ -94,3 +112,7 @@ getPixel(x, y, imgData) {
 [img_imagedata]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/imagedata_sample.png
 [img_rgb_cube]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/rgb_cube.png
 [img_monitor]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/monitor_rgb.jpeg
+[img_photoshop]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/photoshop.png
+
+[math_tan]:http://chart.apis.google.com/chart?cht=tx&chl=tan(%5Ctheta)%20%3D%20%5Cfrac%7By%7D%7Bx%7D%0A%0A%0A%0A
+[math_tan-1]:http://chart.apis.google.com/chart?cht=tx&chl=%5Ctheta%20%3D%20tan%5E%7B-1%7D(%5Cfrac%7By%7D%7Bx%7D)%0A
