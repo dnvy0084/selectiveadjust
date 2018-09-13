@@ -96,7 +96,7 @@ getPixel(x, y, imgData) {
 
 현재 마우스 좌표의 x축이나 y축에 대한 각도는 
 
-![tan][math_tan]
+![tan][math_tan] 
 
 ## 선택 영역 제어
 
