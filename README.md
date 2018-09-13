@@ -118,15 +118,33 @@ Selective Adjust는 비슷한 색상의 픽셀만 보정 효과를 적용하는�
 
 ![벡터 내적][vec_dot_4]
 
-이걸 이용해서 마우스 좌표의 픽셀을 (1, 1, -1)축의 길이와 (1, -1, -1)축의 길이로 계산할 수 있습니다. 
+이걸 이용해서 마우스 좌표의 픽셀을 (1, 1, -1)축의 길이와 (1, -1, -1)축의 길이로 계산할 수 있습니다. 이런 과정을 임의의 벡터를 축에 투영한다고도 합니다. 
 
 ![피타고라스정리][math_pita]
 
 ![길이 1인벡터][math_len]
 
-## 선택 영역 제어
+```javascript
+function getHueAngle(r, g, b) {
+	const len = 0.5773502691896258
+		, [ax, ay, az] = [len, len, -len]
+		, [bx, by, bz] = [len, -len, -len]
+		, x = ax * r + ay * g + az * b
+		, y = bx * r + by * g + bz * b;
 
-## 밝기, 대비 등 기본 보정 적용
+	return Math.atan2(y, x);
+}
+```
+
+(r, g, b) 픽셀을 (ax, ay, az)축과 (bx, by, bz)축에 투영하여 나온 (x, y)의 각도를 구하면 픽셀의 hue를 알 수 있습니다. 정확한 hue 각도는 아닐 수 있지만 선택한 픽셀의 색상과 비슷한 색상을 찾아내기 위한 값으로는 이정도면 될 것 같습니다. 
+
+![selection][img_selection]
+
+imageData의 배열을 돌면서 해당 픽셀의 hue 각도를 구해 비슷할 경우 빨간색으로 바꿔줄 수 있습니다. 
+
+## 밝기, 대비 등 보정 적용
+
+
 
 ## ColorMatrix로 변환
 
@@ -142,6 +160,7 @@ Selective Adjust는 비슷한 색상의 픽셀만 보정 효과를 적용하는�
 [img_hexagon]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/RGB-Cube.PNG
 [img_hsbcylinder]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/hsb_cylinder_capture.png
 [img_axis]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/axis.jpg
+[img_selection]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/selection.png
 
 [math_tan]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/tan.png
 [math_tan-1]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/atan.png
