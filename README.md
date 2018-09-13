@@ -207,6 +207,18 @@ b = s * b + sr + sg + sb;
 
 행렬은 수나 기호, 수식 등을 네모꼴로 배열한 것으로 가로줄을 행, 세로줄을 열이라고 부릅니다. 2개 이상의 방정식을 푸는데 유용하게 사용되는데요, 여기서는 밝기, 대비, 채도 등의 식들을 연산하는데 사용할 수 있습니다. 
 
+### 밝기
+
+![밝기 행렬][math_mat_bri]
+
+### 대비
+
+![대비 행렬][math_mat_cont]
+
+### 채도
+
+![채도 행렬][math_mat_satu]
+
 ```javascript
 for(var i = 0; i < len; i += 4) {
 	r = srcData[i    ];
@@ -230,6 +242,8 @@ for(var i = 0; i < len; i += 4) {
 	destData[i + 3] = srcData[i + 3];
 }
 ```
+
+\begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix} \times \begin{bmatrix} r \\ g \\ b \\ 1 \end{bmatrix}
 
 
 [link_snapseed]:https://itunes.apple.com/kr/app/snapseed/id439438619?mt=8
@@ -256,3 +270,6 @@ for(var i = 0; i < len; i += 4) {
 [math_len]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/len.png
 [math_pita]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/pita.png
 [math_mat]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/mat.png
+[math_mat_bri]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/mat_brig.png
+[math_mat_cont]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/mat_contrast.png
+[math_mat_satu]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/mat_sat.png
