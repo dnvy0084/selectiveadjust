@@ -96,7 +96,7 @@ getPixel(x, y, imgData) {
 
 현재 마우스 좌표의 z축에 대한 각도는 직각삼각형에서 좌표 x, y의 탄젠트 theta 값과 같으니 탄젠트 역함수를 이용해 아래와 같이 구할 수 있습니다.
 
-![직각삼각형][math_triangle]
+![직각삼각형][math_tri]
 
 ![각도 구하기][math_getAngle]
 
