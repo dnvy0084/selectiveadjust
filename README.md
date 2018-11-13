@@ -275,3 +275,4 @@ for loop내에서 픽셀들의 hue 각도를 체크해서 선택한 픽셀과의
 [math_mat_bri]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/mat_brig.png
 [math_mat_cont]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/mat_contrast.png
 [math_mat_satu]:https://pages.oss.navercorp.com/kim-jinhoon/selectiveadjust/img/mat_sat.png
+
